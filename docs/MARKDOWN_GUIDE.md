@@ -1,4 +1,4 @@
-# ✍️ Advanced Markdown Guide
+# Advanced Markdown Guide
 
 Master GitHub Flavored Markdown (GFM) for professional documentation, issues, and pull requests.
 
@@ -52,23 +52,25 @@ Organize information clearly with tables.
 |:-----|:------:|------:|
 | L    |   C    |     R |
 
-### Complex Tables
+### Status Tables
+
+Use text-based status indicators instead of emoji:
 
 ```markdown
 | Feature | Status | Notes |
 |---------|:------:|-------|
-| Authentication | ✅ | OAuth 2.0 |
-| API Rate Limiting | ✅ | 1000 req/min |
-| WebSocket | 🚧 | In progress |
-| GraphQL | ❌ | Planned Q2 |
+| Authentication | Done | OAuth 2.0 |
+| API Rate Limiting | Done | 1000 req/min |
+| WebSocket | WIP | In progress |
+| GraphQL | Planned | Q2 |
 ```
 
 | Feature | Status | Notes |
 |---------|:------:|-------|
-| Authentication | ✅ | OAuth 2.0 |
-| API Rate Limiting | ✅ | 1000 req/min |
-| WebSocket | 🚧 | In progress |
-| GraphQL | ❌ | Planned Q2 |
+| Authentication | Done | OAuth 2.0 |
+| API Rate Limiting | Done | 1000 req/min |
+| WebSocket | WIP | In progress |
+| GraphQL | Planned | Q2 |
 
 ---
 
@@ -126,10 +128,10 @@ This section starts open.
 
 ```markdown
 <details>
-<summary>📁 Project Structure</summary>
+<summary>Project Structure</summary>
 
 <details>
-<summary>📂 src/</summary>
+<summary>src/</summary>
 
 - `index.ts`
 - `utils.ts`
@@ -138,7 +140,7 @@ This section starts open.
 </details>
 
 <details>
-<summary>📂 tests/</summary>
+<summary>tests/</summary>
 
 - `index.test.ts`
 - `utils.test.ts`
@@ -149,10 +151,10 @@ This section starts open.
 ```
 
 <details>
-<summary>📁 Project Structure</summary>
+<summary>Project Structure</summary>
 
 <details>
-<summary>📂 src/</summary>
+<summary>src/</summary>
 
 - `index.ts`
 - `utils.ts`
@@ -161,7 +163,7 @@ This section starts open.
 </details>
 
 <details>
-<summary>📂 tests/</summary>
+<summary>tests/</summary>
 
 - `index.test.ts`
 - `utils.test.ts`
@@ -421,7 +423,7 @@ GitHub automatically links references.
 Visit https://github.com/likhonsex/Ship for more info.
 ```
 
-### Issues & PRs
+### Issues and PRs
 
 | Reference | Example | Links to |
 |-----------|---------|----------|
@@ -437,7 +439,7 @@ Visit https://github.com/likhonsex/Ship for more info.
 | Short SHA | `a1b2c3d` |
 | `owner/repo@SHA` | `likhonsex/Ship@a1b2c3d` |
 
-### Users & Teams
+### Users and Teams
 
 ```markdown
 @likhonsex - Mentions a user
@@ -542,7 +544,7 @@ Add references at the bottom of your content.
 ### Syntax
 
 ```markdown
-Here's a statement that needs a citation[^1].
+Here is a statement that needs a citation[^1].
 
 Another claim with a different source[^note].
 
@@ -552,7 +554,7 @@ Another claim with a different source[^note].
 
 **Renders as:**
 
-Here's a statement that needs a citation[^1].
+Here is a statement that needs a citation[^1].
 
 Another claim with a different source[^note].
 
@@ -570,7 +572,7 @@ Create permanent links to specific lines of code.
 1. Navigate to the file on GitHub
 2. Click the line number (e.g., line 10)
 3. Hold Shift and click another line for a range (e.g., lines 10-20)
-4. Click the `...` menu → **Copy permalink**
+4. Click the `...` menu and select **Copy permalink**
 
 ### Syntax
 
@@ -586,7 +588,7 @@ https://github.com/likhonsex/Ship/blob/main/src/index.ts#L1-L10
 ```
 
 > [!TIP]
-> Use permalinks (with commit SHA) instead of branch links so the reference doesn't break when code changes.
+> Use permalinks (with commit SHA) instead of branch links so the reference does not break when code changes.
 
 ---
 
@@ -664,8 +666,8 @@ Show different images for light/dark mode:
 
 <div align="center">
 
-**[↑ Back to top](#%EF%B8%8F-advanced-markdown-guide)**
+[Back to top](#advanced-markdown-guide)
 
-Ship 💜 Documentation
+Ship Documentation
 
 </div>
