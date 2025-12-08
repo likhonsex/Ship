@@ -1,62 +1,130 @@
 <div align="center">
 
+<img src="https://img.shields.io/badge/Ship-AI%20Coding%20Agent-blueviolet?style=for-the-badge&logo=github" alt="Ship Logo"/>
+
 # Ship
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+### **Ship faster with AI that codes with you**
 
-**Ship faster with AI that codes with you**
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Enabled-2088FF?style=flat-square&logo=github-actions&logoColor=white)](https://github.com/likhonsex/Ship/actions)
+[![Contributors](https://img.shields.io/github/contributors/likhonsex/Ship?style=flat-square)](https://github.com/likhonsex/Ship/graphs/contributors)
+[![Stars](https://img.shields.io/github/stars/likhonsex/Ship?style=flat-square)](https://github.com/likhonsex/Ship/stargazers)
+[![Issues](https://img.shields.io/github/issues/likhonsex/Ship?style=flat-square)](https://github.com/likhonsex/Ship/issues)
+[![License](https://img.shields.io/github/license/likhonsex/Ship?style=flat-square)](https://github.com/likhonsex/Ship/blob/main/LICENSE)
 
-[View Demo](https://github.com/likhonsex/Ship) · [Report Bug](https://github.com/likhonsex/Ship/issues) · [Request Feature](https://github.com/likhonsex/Ship/issues)
+[**Get Started**](#getting-started) · [**Documentation**](AGENTS.md) · [**Report Bug**](https://github.com/likhonsex/Ship/issues) · [**Request Feature**](https://github.com/likhonsex/Ship/issues)
 
 </div>
 
 ---
 
-## About The Project
+## What is Ship?
 
-Assign issues directly to Ship and let it autonomously write code, create pull requests, and respond to feedback in the background.
+**Ship** is an autonomous AI coding agent that works directly in your GitHub workflow. Assign issues to Ship and watch it autonomously write code, create pull requests, and respond to feedback — all in the background.
 
-### Why Ship?
-
-- **Your code's favorite coding agents** — From clearing your backlog to reviewing code, let Ship handle the busywork so you can focus on what's next.
-- **AI for every step of your workflow** — Ship works with you and for you to bring big ideas to life and push technology forward.
-- **Agent Mode** — Complete complex tasks quickly by using agent mode to analyze your code, propose edits, run tests, and validate results.
-
-### Built With
-
-| Technology | Purpose |
-|------------|---------|
-| **Vercel AI SDK** | Unified LLM interface |
-| **Next.js** | Frontend & API routes |
-| **TypeScript** | Type-safe development |
-| **GitHub API** | Issue & PR management |
+> *From edits to pull requests, the world's best coding agents work beside you so nothing slows you down.*
 
 ---
 
-## Accelerate from Idea to First Commit
+## Key Features
 
-> Turn ambitious projects into a functional codebase with AI that understands your intent.
+| Feature | Description |
+|---------|-------------|
+| **Issue Assignment** | Assign issues directly to Ship |
+| **Autonomous Coding** | AI writes code based on requirements |
+| **Auto PR Creation** | Creates well-formatted pull requests |
+| **Feedback Response** | Responds to code review comments |
+| **Multi-Provider LLM** | OpenAI, Claude, Groq, Ollama support |
 
-### Build Full-Stack Apps from Natural Language
+---
 
-Go from idea to deployed application using natural language with built-in AI, database, and authentication.
+## Get Started with GitHub Actions
 
-```typescript
-import { generateText } from 'ai';
+Build, test, and deploy your code. Make code reviews, branch management, and issue triaging work the way you want.
 
-async function generateCode(issueContext: string) {
-  const { text } = await generateText({
-    model: 'gpt-3.5-turbo',
-    prompt: `Generate code for: ${issueContext}`,
-    temperature: 0.7,
-  });
-  return text;
-}
+### Suggested Workflows
+
+| Workflow | Description | Trigger |
+|----------|-------------|---------|
+| **Ship Agent** | Process assigned issues with AI | `issues.assigned` |
+| **Code Review** | AI-powered code review | `pull_request` |
+| **Auto Deploy** | Deploy on merge to main | `push` to `main` |
+| **Test Runner** | Run tests on PR | `pull_request` |
+
+### Quick Setup
+
+```yaml
+# .github/workflows/ship.yml
+name: Ship Agent
+
+on:
+  issues:
+    types: [assigned]
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Run Ship Agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run ship -- --issue ${{ github.event.issue.number }}
 ```
+
+---
+
+## Architecture
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                        GitHub Events                          │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     Issue Processor                           │
+│              Extract context & requirements                   │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     Code Generator                            │
+│           Generate code using Vercel AI SDK                   │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                      PR Manager                               │
+│         Create branches, PRs & handle reviews                 │
+└──────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Tech Stack
+
+<div align="center">
+
+| | Technology | Purpose |
+|:---:|:---|:---|
+| ⚡ | **Vercel AI SDK** | Unified LLM interface |
+| ⚛️ | **Next.js 14** | Frontend & API routes |
+| 📘 | **TypeScript** | Type-safe development |
+| 🐙 | **GitHub API** | Issue & PR management |
+| 🗄️ | **Supabase** | Database (optional) |
+
+</div>
 
 ---
 
@@ -64,28 +132,38 @@ async function generateCode(issueContext: string) {
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
-- GitHub account
+```bash
+node >= 18.0.0
+npm >= 9.0.0
+```
 
 ### Installation
 
-1. Clone the repo
-   ```bash
-   git clone https://github.com/likhonsex/Ship.git
-   ```
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-3. Configure environment variables
-   ```bash
-   cp .env.example .env
-   ```
-4. Start the development server
-   ```bash
-   npm run dev
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/likhonsex/Ship.git
+cd Ship
+
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.example .env
+
+# Start development server
+npm run dev
+```
+
+### Environment Variables
+
+| Variable | Required | Description |
+|----------|:--------:|-------------|
+| `GITHUB_TOKEN` | ✅ | GitHub access token |
+| `OPENAI_API_KEY` | ✅* | OpenAI API key |
+| `ANTHROPIC_API_KEY` | ➖ | Claude API key |
+| `GROQ_API_KEY` | ➖ | Groq API key |
+
+> *At least one LLM provider key required
 
 ---
 
@@ -93,81 +171,44 @@ async function generateCode(issueContext: string) {
 
 - [x] Core issue processor
 - [x] AI code generation
+- [x] GitHub Actions integration
 - [ ] Multi-provider LLM support
 - [ ] Advanced PR management
 - [ ] Feedback loop automation
-- [ ] Multi-language support
-
-See the [open issues](https://github.com/likhonsex/Ship/issues) for a full list of proposed features.
+- [ ] VS Code extension
 
 ---
 
 ## Contributing
 
-Contributions make the open source community an amazing place to learn, inspire, and create.
+```bash
+# Fork & clone
+git clone https://github.com/YOUR_USERNAME/Ship.git
 
-### Quick Tips for Beginners
+# Create feature branch
+git checkout -b feature/amazing-feature
 
-| Step | Action |
-|------|--------|
-| 1 | Fork the Project |
-| 2 | Create your Feature Branch (`git checkout -b feature/AmazingFeature`) |
-| 3 | Commit your Changes (`git commit -m 'Add AmazingFeature'`) |
-| 4 | Push to the Branch (`git push origin feature/AmazingFeature`) |
-| 5 | Open a Pull Request |
+# Make changes & commit
+git commit -m "Add amazing feature"
 
-> **Note:** Always create a new branch, write clear commit messages, and test locally before submitting.
+# Push & create PR
+git push origin feature/amazing-feature
+```
 
----
-
-## Open Source Guides
-
-| Guide | Description |
-|-------|-------------|
-| **Security Best Practices** | MFA, code scanning, dependency management |
-| **Maintaining Balance** | Self-care tips for maintainers |
-| **How to Contribute** | Guide for first-timers and veterans |
-| **Starting a Project** | Launch your own open source project |
-| **Finding Users** | Grow your project's user base |
-| **Building Communities** | Encourage contribution and evangelism |
-| **Best Practices** | Document processes, leverage community |
-| **Leadership & Governance** | Formal rules for decision making |
-| **Getting Paid** | Financial support for your work |
-| **Code of Conduct** | Healthy community behavior |
-| **Open Source Metrics** | Measure and track success |
-| **Legal Side** | Licenses and legal considerations |
+See [AGENTS.md](AGENTS.md) for agent development guidelines.
 
 ---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-## Contact
+<div align="center">
 
-**Likhon Sheikh** — [@likhonsex](https://github.com/likhonsex)
+**Built with AI for developers who ship**
 
-Project Link: [https://github.com/likhonsex/Ship](https://github.com/likhonsex/Ship)
+[GitHub](https://github.com/likhonsex/Ship) · [Issues](https://github.com/likhonsex/Ship/issues) · [Discussions](https://github.com/likhonsex/Ship/discussions)
 
----
-
-## Acknowledgments
-
-- [Vercel AI SDK](https://sdk.vercel.ai/)
-- [Next.js](https://nextjs.org/)
-- [Shields.io](https://shields.io/)
-- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[contributors-shield]: https://img.shields.io/github/contributors/likhonsex/Ship.svg?style=for-the-badge
-[contributors-url]: https://github.com/likhonsex/Ship/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/likhonsex/Ship.svg?style=for-the-badge
-[forks-url]: https://github.com/likhonsex/Ship/network/members
-[stars-shield]: https://img.shields.io/github/stars/likhonsex/Ship.svg?style=for-the-badge
-[stars-url]: https://github.com/likhonsex/Ship/stargazers
-[issues-shield]: https://img.shields.io/github/issues/likhonsex/Ship.svg?style=for-the-badge
-[issues-url]: https://github.com/likhonsex/Ship/issues
-[license-shield]: https://img.shields.io/github/license/likhonsex/Ship.svg?style=for-the-badge
-[license-url]: https://github.com/likhonsex/Ship/blob/main/LICENSE
+</div>
