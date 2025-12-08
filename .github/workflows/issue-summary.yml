@@ -1,0 +1,53 @@
+name: AI Issue Summary
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Summarize Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+            const title = issue.title || '';
+            
+            // Extract key information
+            const labels = [];
+            
+            // Auto-detect issue type
+            if (title.toLowerCase().includes('bug') || body.toLowerCase().includes('error')) {
+              labels.push('bug');
+            }
+            if (title.toLowerCase().includes('feature') || body.toLowerCase().includes('would be nice')) {
+              labels.push('enhancement');
+            }
+            if (title.toLowerCase().includes('[ship]') || body.toLowerCase().includes('ship agent')) {
+              labels.push('ship-agent');
+            }
+            if (body.toLowerCase().includes('security') || body.toLowerCase().includes('vulnerability')) {
+              labels.push('security');
+            }
+            
+            // Add detected labels
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: labels
+              });
+            }
+            
+            console.log(`Processed issue #${issue.number}: ${title}`);
+            console.log(`Applied labels: ${labels.join(', ') || 'none'}`);

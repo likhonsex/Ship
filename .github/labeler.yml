@@ -1,0 +1,38 @@
+# Labels based on files changed
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'docs/**'
+
+workflows:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+
+agent:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/agents/**'
+          - 'lib/agents/**'
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.config.*'
+          - '.env*'
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+          - '*.test.*'
+          - '*.spec.*'
+
+assets:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'assets/**'
+          - '*.svg'
+          - '*.png'
