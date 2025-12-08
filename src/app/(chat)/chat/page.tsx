@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth-provider'
 import { ChatInterface } from '@/components/chat/chat-interface'
+import { Icons } from '@/components/icons'
 
 export default function ChatPage() {
   const { user, loading } = useAuth()
@@ -17,8 +18,8 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      <div className="flex h-full items-center justify-center">
+        <Icons.spinner className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     )
   }
@@ -27,9 +28,5 @@ export default function ChatPage() {
     return null
   }
 
-  return (
-    <div className="flex h-screen flex-col">
-      <ChatInterface />
-    </div>
-  )
+  return <ChatInterface />
 }
