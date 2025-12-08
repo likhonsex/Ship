@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ship - AI Coding Agent</title>
+  <meta name="description" content="Ship faster with AI that codes with you">
+  <meta property="og:title" content="Ship - AI Coding Agent">
+  <meta property="og:description" content="Ship faster with AI that codes with you">
+  <meta property="og:image" content="https://raw.githubusercontent.com/likhonsex/Ship/main/assets/brand/social/github-social-preview.svg">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238B5CF6'/><text x='50' y='65' text-anchor='middle' font-size='40' fill='white'>🚀</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --violet: #8B5CF6;
+      --indigo: #6366F1;
+      --navy: #1E1B4B;
+      --purple-light: #A78BFA;
+      --purple-pale: #C4B5FD;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, #312E81 100%);
+      min-height: 100vh;
+      color: white;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      padding: 4rem 0;
+    }
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple-light), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: 1.5rem;
+      color: var(--purple-pale);
+      margin-top: 1rem;
+    }
+    .cta {
+      margin-top: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--violet);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.4);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--purple-light);
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 4rem 0;
+    }
+    .feature {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .feature h3 {
+      color: var(--purple-light);
+      margin-bottom: 1rem;
+    }
+    .feature p {
+      color: var(--purple-pale);
+      line-height: 1.6;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--purple-pale);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    footer a {
+      color: var(--purple-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="https://raw.githubusercontent.com/likhonsex/Ship/main/assets/ship-logo.svg" alt="Ship Logo" class="logo">
+      <h1>Ship</h1>
+      <p class="tagline">Ship faster with AI that codes with you</p>
+      <div class="cta">
+        <a href="https://github.com/likhonsex/Ship" class="btn">Get Started</a>
+        <a href="https://github.com/likhonsex/Ship/blob/main/AGENTS.md" class="btn btn-outline">Documentation</a>
+      </div>
+    </header>
+
+    <section class="features">
+      <div class="feature">
+        <h3>🤖 Autonomous Coding</h3>
+        <p>Assign issues to Ship and watch it write code, create PRs, and respond to feedback automatically.</p>
+      </div>
+      <div class="feature">
+        <h3>🔒 Secure by Default</h3>
+        <p>Find and fix vulnerabilities in real time. Deploy with confidence.</p>
+      </div>
+      <div class="feature">
+        <h3>⚡ One-Click Deploy</h3>
+        <p>From idea to deployed application using natural language with built-in AI.</p>
+      </div>
+      <div class="feature">
+        <h3>🔄 Feedback Loop</h3>
+        <p>Ship responds to code review comments and updates PRs automatically.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built on the platform trusted by over 150 million developers</p>
+      <p style="margin-top: 1rem;">✨ Dream it. See it. Ship it. ✨</p>
+      <p style="margin-top: 1rem;"><a href="https://github.com/likhonsex/Ship">GitHub</a> · <a href="https://github.com/likhonsex/Ship/discussions">Discussions</a></p>
+    </footer>
+  </div>
+</body>
+</html>
