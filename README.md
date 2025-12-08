@@ -1,93 +1,173 @@
+<div align="center">
+
 # Ship
 
-**Ship - faster with AI that codes with you**
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
+**Ship faster with AI that codes with you**
+
+[View Demo](https://github.com/likhonsex/Ship) · [Report Bug](https://github.com/likhonsex/Ship/issues) · [Request Feature](https://github.com/likhonsex/Ship/issues)
+
+</div>
+
+---
+
+## About The Project
 
 Assign issues directly to Ship and let it autonomously write code, create pull requests, and respond to feedback in the background.
 
+### Why Ship?
+
+- **Your code's favorite coding agents** — From clearing your backlog to reviewing code, let Ship handle the busywork so you can focus on what's next.
+- **AI for every step of your workflow** — Ship works with you and for you to bring big ideas to life and push technology forward.
+- **Agent Mode** — Complete complex tasks quickly by using agent mode to analyze your code, propose edits, run tests, and validate results.
+
+### Built With
+
+| Technology | Purpose |
+|------------|---------|
+| **Vercel AI SDK** | Unified LLM interface |
+| **Next.js** | Frontend & API routes |
+| **TypeScript** | Type-safe development |
+| **GitHub API** | Issue & PR management |
+
 ---
 
-### Your code's favorite coding agents
+## Accelerate from Idea to First Commit
 
-From clearing your backlog to reviewing code, let Ship handle the busywork so you can focus on what's next.
+> Turn ambitious projects into a functional codebase with AI that understands your intent.
 
-From edits to pull requests, the world's best coding agents work beside you so nothing slows you down.
-
----
-
-### AI for every step of your workflow
-
-Ship works with you and for you to bring big ideas to life and push technology forward.
-
-Complete complex tasks quickly by using agent mode to analyze your code, propose edits, run tests, and validate results.
-
----
-
-## Accelerate from idea to first commit
-
-Turn ambitious projects into a functional codebase with AI that understands your intent.
-
-### Build full-stack apps from natural language
+### Build Full-Stack Apps from Natural Language
 
 Go from idea to deployed application using natural language with built-in AI, database, and authentication.
 
+```typescript
+import { generateText } from 'ai';
+
+async function generateCode(issueContext: string) {
+  const { text } = await generateText({
+    model: 'gpt-3.5-turbo',
+    prompt: `Generate code for: ${issueContext}`,
+    temperature: 0.7,
+  });
+  return text;
+}
+```
+
 ---
 
-## How to contribute
+## Getting Started
 
-If you'd like to contribute, start by searching through the pull requests to see whether someone else has raised a similar idea or question.
+### Prerequisites
 
-If you don't see your idea listed, and you think it fits into the goals of this guide, open a pull request.
+- Node.js 18+
+- npm or yarn
+- GitHub account
 
-### 💡 Quick Tip for Beginners
+### Installation
 
-- Always create a new branch for your changes.
-- Write clear commit messages.
-- Test your changes locally before submitting a PR.
-- Follow the style guide.
-- Be patient during reviews.
+1. Clone the repo
+   ```bash
+   git clone https://github.com/likhonsex/Ship.git
+   ```
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Configure environment variables
+   ```bash
+   cp .env.example .env
+   ```
+4. Start the development server
+   ```bash
+   npm run dev
+   ```
 
-### Style guide
+---
 
-If you're writing content, see the style guide to help your prose match the rest of the guides.
+## Roadmap
+
+- [x] Core issue processor
+- [x] AI code generation
+- [ ] Multi-provider LLM support
+- [ ] Advanced PR management
+- [ ] Feedback loop automation
+- [ ] Multi-language support
+
+See the [open issues](https://github.com/likhonsex/Ship/issues) for a full list of proposed features.
+
+---
+
+## Contributing
+
+Contributions make the open source community an amazing place to learn, inspire, and create.
+
+### Quick Tips for Beginners
+
+| Step | Action |
+|------|--------|
+| 1 | Fork the Project |
+| 2 | Create your Feature Branch (`git checkout -b feature/AmazingFeature`) |
+| 3 | Commit your Changes (`git commit -m 'Add AmazingFeature'`) |
+| 4 | Push to the Branch (`git push origin feature/AmazingFeature`) |
+| 5 | Open a Pull Request |
+
+> **Note:** Always create a new branch, write clear commit messages, and test locally before submitting.
 
 ---
 
 ## Open Source Guides
 
-Open source software is made by people just like you. Learn how to launch and grow your project.
+| Guide | Description |
+|-------|-------------|
+| **Security Best Practices** | MFA, code scanning, dependency management |
+| **Maintaining Balance** | Self-care tips for maintainers |
+| **How to Contribute** | Guide for first-timers and veterans |
+| **Starting a Project** | Launch your own open source project |
+| **Finding Users** | Grow your project's user base |
+| **Building Communities** | Encourage contribution and evangelism |
+| **Best Practices** | Document processes, leverage community |
+| **Leadership & Governance** | Formal rules for decision making |
+| **Getting Paid** | Financial support for your work |
+| **Code of Conduct** | Healthy community behavior |
+| **Open Source Metrics** | Measure and track success |
+| **Legal Side** | Licenses and legal considerations |
 
-### Security Best Practices for your Project
-Strengthen your project's future by building trust through essential security practices — from MFA and code scanning to safe dependency management and private vulnerability reporting.
+---
 
-### Maintaining Balance for Open Source Maintainers
-Tips for self-care and avoiding burnout as a maintainer.
+## License
 
-### How to Contribute to Open Source
-Want to contribute to open source? A guide to making open source contributions, for first-timers and veterans.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-### Starting an Open Source Project
-Learn more about the world of open source and get ready to launch your own project.
+---
 
-### Finding Users for Your Project
-Help your open source project grow by getting it in the hands of happy users.
+## Contact
 
-### Building Welcoming Communities
-Building a community that encourages people to use, contribute to, and evangelize your project.
+**Likhon Sheikh** — [@likhonsex](https://github.com/likhonsex)
 
-### Best Practices for Maintainers
-Making your life easier as an open source maintainer, from documenting processes to leveraging your community.
+Project Link: [https://github.com/likhonsex/Ship](https://github.com/likhonsex/Ship)
 
-### Leadership and Governance
-Growing open source projects can benefit from formal rules for making decisions.
+---
 
-### Getting Paid for Open Source Work
-Sustain your work in open source by getting financial support for your time or your project.
+## Acknowledgments
 
-### Your Code of Conduct
-Facilitate healthy and constructive community behavior by adopting and enforcing a code of conduct.
+- [Vercel AI SDK](https://sdk.vercel.ai/)
+- [Next.js](https://nextjs.org/)
+- [Shields.io](https://shields.io/)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
-### Open Source Metrics
-Make informed decisions to help your open source project thrive by measuring and tracking its success.
-
-### The Legal Side of Open Source
-Everything you've ever wondered about the legal side of open source, and a few things you didn't.
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/likhonsex/Ship.svg?style=for-the-badge
+[contributors-url]: https://github.com/likhonsex/Ship/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/likhonsex/Ship.svg?style=for-the-badge
+[forks-url]: https://github.com/likhonsex/Ship/network/members
+[stars-shield]: https://img.shields.io/github/stars/likhonsex/Ship.svg?style=for-the-badge
+[stars-url]: https://github.com/likhonsex/Ship/stargazers
+[issues-shield]: https://img.shields.io/github/issues/likhonsex/Ship.svg?style=for-the-badge
+[issues-url]: https://github.com/likhonsex/Ship/issues
+[license-shield]: https://img.shields.io/github/license/likhonsex/Ship.svg?style=for-the-badge
+[license-url]: https://github.com/likhonsex/Ship/blob/main/LICENSE
