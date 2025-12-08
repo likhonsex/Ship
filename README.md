@@ -18,6 +18,16 @@
 
 ---
 
+<div align="center">
+
+## From Prototype to Production in One Place
+
+Built on the platform trusted by **over 150 million developers**, Ship gives you the smoothest path from idea to deployment.
+
+</div>
+
+---
+
 ## What is Ship?
 
 **Ship** is an autonomous AI coding agent that works directly in your GitHub workflow. Assign issues to Ship and watch it autonomously write code, create pull requests, and respond to feedback — all in the background.
@@ -245,9 +255,11 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 <div align="center">
 
+## From Prototype to Production
+
 ### ✨ Dream it. See it. Ship it. ✨
 
-**Built with AI for developers who ship**
+**Built on the platform trusted by over 150 million developers**
 
 [GitHub](https://github.com/likhonsex/Ship) · [Issues](https://github.com/likhonsex/Ship/issues) · [Discussions](https://github.com/likhonsex/Ship/discussions)
 
