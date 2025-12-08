@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/Ship-AI%20Coding%20Agent-blueviolet?style=for-the-badge&logo=github" alt="Ship Logo"/>
+<img src="assets/ship-logo.svg" alt="Ship Logo" width="120" height="120"/>
 
 # Ship
 
@@ -33,6 +33,19 @@ Built on the platform trusted by **over 150 million developers**, Ship gives you
 **Ship** is an autonomous AI coding agent that works directly in your GitHub workflow. Assign issues to Ship and watch it autonomously write code, create pull requests, and respond to feedback — all in the background.
 
 > *From edits to pull requests, the world's best coding agents work beside you so nothing slows you down.*
+
+---
+
+## Build and Iterate Your Way
+
+Natural language, clickable controls, or code—use whatever feels right. Live preview updates instantly as you build, so you see your ideas take shape in real-time.
+
+| Input Method | Description |
+|--------------|-------------|
+| **Natural Language** | Describe what you want in plain English |
+| **Clickable Controls** | Use intuitive UI to guide the AI |
+| **Code** | Write code directly when you prefer |
+| **Live Preview** | See changes instantly as you build |
 
 ---
 
@@ -219,6 +232,7 @@ npm run dev
 - [x] AI code generation
 - [x] GitHub Actions integration
 - [x] Security vulnerability scanning
+- [x] Live preview updates
 - [ ] Multi-provider LLM support
 - [ ] Advanced PR management
 - [ ] Feedback loop automation
@@ -254,6 +268,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
+
+<img src="assets/ship-logo.svg" alt="Ship" width="60" height="60"/>
 
 ## From Prototype to Production
 
