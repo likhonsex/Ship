@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discussions
+    url: https://github.com/likhonsex/Ship/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: Documentation
+    url: https://github.com/likhonsex/Ship/blob/main/AGENTS.md
+    about: Read the Ship Agent documentation

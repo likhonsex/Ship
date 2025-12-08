@@ -1,0 +1,23 @@
+title: "[Q&A] "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask questions about Ship!
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: How do I...
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any relevant context or what you've tried
+    validations:
+      required: false

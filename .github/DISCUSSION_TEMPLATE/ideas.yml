@@ -1,0 +1,23 @@
+title: "[Idea] "
+labels:
+  - idea
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share your ideas for improving Ship!
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your Idea
+      description: Describe your idea in detail
+      placeholder: I think Ship could...
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: How would this be used?
+    validations:
+      required: false
