@@ -24,6 +24,16 @@ import {
   Cpu,
   Shield,
   Zap,
+  Code,
+  Terminal,
+  FolderOpen,
+  Play,
+  Square,
+  FileCode,
+  Folder,
+  File,
+  PanelLeft,
+  Menu,
 } from 'lucide-react'
 
 export const Icons = {
@@ -67,4 +77,14 @@ export const Icons = {
   cpu: Cpu,
   shield: Shield,
   zap: Zap,
+  code: Code,
+  terminal: Terminal,
+  folderOpen: FolderOpen,
+  play: Play,
+  stop: Square,
+  fileCode: FileCode,
+  folder: Folder,
+  file: File,
+  panelLeft: PanelLeft,
+  menu: Menu,
 }

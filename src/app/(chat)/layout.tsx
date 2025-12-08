@@ -75,6 +75,12 @@ export default function ChatLayout({
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
+                <Link href="/workspaces">
+                  <Icons.folderOpen className="mr-2 h-4 w-4" />
+                  Workspaces
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/settings">
                   <Icons.settings className="mr-2 h-4 w-4" />
                   Settings
