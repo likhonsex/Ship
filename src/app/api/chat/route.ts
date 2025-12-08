@@ -7,10 +7,10 @@ export const runtime = 'edge'
 
 export async function POST(req: Request) {
   try {
-    const { messages, model = 'groq' }: { messages: CoreMessage[]; model?: 'xai' | 'openai' | 'groq' } = await req.json()
+    const { messages }: { messages: CoreMessage[] } = await req.json()
 
     const result = streamText({
-      model: getModel(model),
+      model: getModel(),
       system: systemPrompt,
       messages,
     })
