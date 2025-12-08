@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { ThemeProvider } from '@/components/theme-provider'
+import { AuthProvider } from '@/components/auth-provider'
 import { Toaster } from '@/components/ui/sonner'
-import { Analytics } from '@/components/analytics'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -57,10 +57,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
           <Toaster position="top-center" />
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   )
