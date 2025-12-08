@@ -12,7 +12,11 @@ export const metadata: Metadata = {
     template: '%s | Ship',
   },
   description: 'Ship faster with AI that codes with you',
-  metadataBase: new URL('https://ship-any.vercel.app'),
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000'
+  ),
   openGraph: {
     title: 'Ship - AI Coding Agent',
     description: 'Ship faster with AI that codes with you',
@@ -46,7 +50,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <body className="min-h-screen font-sans">
+      <body className="min-h-screen font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

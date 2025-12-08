@@ -2,6 +2,9 @@ import { neon } from '@neondatabase/serverless'
 import { drizzle } from 'drizzle-orm/neon-http'
 import * as schema from './schema'
 
-const sql = neon(process.env.DATABASE_URL!)
+const connectionString = process.env.DATABASE_URL
 
-export const db = drizzle(sql, { schema })
+// Only create connection if DATABASE_URL is set
+const sql = connectionString ? neon(connectionString) : null
+
+export const db = sql ? drizzle(sql, { schema }) : null
