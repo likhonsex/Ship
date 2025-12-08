@@ -1,7 +1,6 @@
 'use client'
 
-import { useChat } from '@ai-sdk/react'
-import { useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -11,18 +10,18 @@ import { useAuth } from '@/components/auth-provider'
 import ReactMarkdown from 'react-markdown'
 import { toast } from 'sonner'
 
+interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+}
+
 export function ChatInterface() {
   const { user } = useAuth()
   const scrollRef = useRef<HTMLDivElement>(null)
-
-  const { messages, setInput, status, error, handleSubmit } = useChat({
-    onError: (error) => {
-      toast.error(error.message || 'Something went wrong')
-    },
-  })
-
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-  const isLoading = status === 'streaming' || status === 'submitted'
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -30,23 +29,63 @@ export function ChatInterface() {
     }
   }, [messages])
 
-  const onSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const input = inputRef.current?.value || ''
-    if (!input.trim()) return
-    setInput(input)
-    handleSubmit(e)
-    if (inputRef.current) inputRef.current.value = ''
-  }
+    if (!input.trim() || isLoading) return
 
-  const getMessageContent = (message: typeof messages[0]) => {
-    if (typeof message.content === 'string') {
-      return message.content
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input.trim(),
     }
-    return message.content
-      .filter((part): part is { type: 'text'; text: string } => part.type === 'text')
-      .map((part) => part.text)
-      .join('')
+
+    setMessages((prev) => [...prev, userMessage])
+    setInput('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to send message')
+
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No reader')
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: '',
+      }
+      setMessages((prev) => [...prev, assistantMessage])
+
+      const decoder = new TextDecoder()
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const text = decoder.decode(value)
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantMessage.id
+              ? { ...m, content: m.content + text }
+              : m
+          )
+        )
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -83,7 +122,7 @@ export function ChatInterface() {
                 }`}
               >
                 <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <ReactMarkdown>{getMessageContent(message)}</ReactMarkdown>
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
                 </div>
               </div>
               {message.role === 'user' && (
@@ -95,7 +134,7 @@ export function ChatInterface() {
             </div>
           ))}
 
-          {isLoading && (
+          {isLoading && messages[messages.length - 1]?.role === 'user' && (
             <div className="flex gap-3">
               <Avatar className="h-8 w-8">
                 <AvatarFallback>
@@ -105,8 +144,8 @@ export function ChatInterface() {
               <div className="rounded-lg bg-muted px-4 py-2">
                 <div className="flex items-center gap-1">
                   <span className="animate-bounce">.</span>
-                  <span className="animate-bounce delay-100">.</span>
-                  <span className="animate-bounce delay-200">.</span>
+                  <span className="animate-bounce" style={{ animationDelay: '0.1s' }}>.</span>
+                  <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
                 </div>
               </div>
             </div>
@@ -115,23 +154,24 @@ export function ChatInterface() {
       </ScrollArea>
 
       <div className="border-t p-4">
-        <form onSubmit={onSubmit} className="mx-auto max-w-3xl">
+        <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
           <div className="relative">
             <Textarea
-              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
               className="min-h-[60px] w-full resize-none pr-12"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault()
-                  onSubmit(e)
+                  handleSubmit(e)
                 }
               }}
             />
             <Button
               type="submit"
               size="icon"
-              disabled={isLoading}
+              disabled={isLoading || !input.trim()}
               className="absolute bottom-2 right-2"
             >
               <Icons.send className="h-4 w-4" />

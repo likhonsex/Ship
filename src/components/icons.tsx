@@ -20,6 +20,10 @@ import {
   Github,
   MessageSquare,
   RefreshCw,
+  Sparkles,
+  Cpu,
+  Shield,
+  Zap,
 } from 'lucide-react'
 
 export const Icons = {
@@ -59,4 +63,8 @@ export const Icons = {
   github: Github,
   message: MessageSquare,
   refresh: RefreshCw,
+  sparkles: Sparkles,
+  cpu: Cpu,
+  shield: Shield,
+  zap: Zap,
 }
