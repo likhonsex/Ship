@@ -11,3 +11,9 @@ Assign issues directly to Ship and let it autonomously write code, create pull r
 From clearing your backlog to reviewing code, let Ship handle the busywork so you can focus on what's next.
 
 From edits to pull requests, the world's best coding agents work beside you so nothing slows you down.
+
+---
+
+### AI for every step of your workflow
+
+Ship works with you and for you to bring big ideas to life and push technology forward.
