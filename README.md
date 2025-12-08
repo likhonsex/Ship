@@ -20,6 +20,16 @@ Ship works with you and for you to bring big ideas to life and push technology f
 
 ---
 
+## Accelerate from idea to first commit
+
+Turn ambitious projects into a functional codebase with AI that understands your intent.
+
+### Build full-stack apps from natural language
+
+Go from idea to deployed application using natural language with built-in AI, database, and authentication.
+
+---
+
 ## Open Source Guides
 
 Open source software is made by people just like you. Learn how to launch and grow your project.
