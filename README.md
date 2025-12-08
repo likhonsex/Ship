@@ -30,6 +30,26 @@ Go from idea to deployed application using natural language with built-in AI, da
 
 ---
 
+## How to contribute
+
+If you'd like to contribute, start by searching through the pull requests to see whether someone else has raised a similar idea or question.
+
+If you don't see your idea listed, and you think it fits into the goals of this guide, open a pull request.
+
+### 💡 Quick Tip for Beginners
+
+- Always create a new branch for your changes.
+- Write clear commit messages.
+- Test your changes locally before submitting a PR.
+- Follow the style guide.
+- Be patient during reviews.
+
+### Style guide
+
+If you're writing content, see the style guide to help your prose match the rest of the guides.
+
+---
+
 ## Open Source Guides
 
 Open source software is made by people just like you. Learn how to launch and grow your project.
