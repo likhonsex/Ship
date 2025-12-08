@@ -1,23 +1,35 @@
-import { Metadata } from 'next'
-import { redirect } from 'next/navigation'
-import { auth } from '@/lib/auth'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/components/auth-provider'
 import { ChatInterface } from '@/components/chat/chat-interface'
 
-export const metadata: Metadata = {
-  title: 'Chat',
-  description: 'Chat with Ship AI',
-}
+export default function ChatPage() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
 
-export default async function ChatPage() {
-  const session = await auth()
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login')
+    }
+  }, [user, loading, router])
 
-  if (!session?.user) {
-    redirect('/login')
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
     <div className="flex h-screen flex-col">
-      <ChatInterface user={session.user} />
+      <ChatInterface />
     </div>
   )
 }

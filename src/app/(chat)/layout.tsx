@@ -1,24 +1,42 @@
-import { auth } from '@/lib/auth'
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/components/auth-provider'
 import { ChatSidebar } from '@/components/chat/chat-sidebar'
 import { ChatHeader } from '@/components/chat/chat-header'
 
-export default async function ChatLayout({
+export default function ChatLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  const { user, loading } = useAuth()
+  const router = useRouter()
 
-  if (!session?.user) {
-    redirect('/login')
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login')
+    }
+  }, [user, loading, router])
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
     <div className="flex h-screen">
-      <ChatSidebar user={session.user} />
+      <ChatSidebar />
       <div className="flex flex-1 flex-col">
-        <ChatHeader user={session.user} />
+        <ChatHeader />
         <main className="flex-1 overflow-hidden">{children}</main>
       </div>
     </div>
