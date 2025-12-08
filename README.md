@@ -18,6 +18,8 @@ From edits to pull requests, the world's best coding agents work beside you so n
 
 Ship works with you and for you to bring big ideas to life and push technology forward.
 
+Complete complex tasks quickly by using agent mode to analyze your code, propose edits, run tests, and validate results.
+
 ---
 
 ## Accelerate from idea to first commit
