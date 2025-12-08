@@ -1,10 +1,13 @@
-import { neon } from '@neondatabase/serverless'
-import { drizzle } from 'drizzle-orm/neon-http'
-import * as schema from './schema'
+// Database module - commented out until Neon is configured
+// Uncomment and install packages when ready:
+// npm install @neondatabase/serverless drizzle-orm
 
-const connectionString = process.env.DATABASE_URL
+// import { neon } from '@neondatabase/serverless'
+// import { drizzle } from 'drizzle-orm/neon-http'
+// import * as schema from './schema'
 
-// Only create connection if DATABASE_URL is set
-const sql = connectionString ? neon(connectionString) : null
+// const connectionString = process.env.DATABASE_URL
+// const sql = connectionString ? neon(connectionString) : null
+// export const db = sql ? drizzle(sql, { schema }) : null
 
-export const db = sql ? drizzle(sql, { schema }) : null
+export const db = null

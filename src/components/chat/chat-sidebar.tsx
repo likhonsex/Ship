@@ -19,10 +19,9 @@ export function ChatSidebar() {
       <ScrollArea className="h-[calc(100vh-3.5rem)]">
         <div className="p-2">
           <p className="px-2 py-1 text-xs text-muted-foreground">Recent chats</p>
-          {/* Chat history will go here */}
           <div className="mt-2 space-y-1">
             <Button variant="ghost" className="w-full justify-start text-left">
-              <Icons.messageSquare className="mr-2 h-4 w-4" />
+              <Icons.message className="mr-2 h-4 w-4" />
               <span className="truncate">New conversation</span>
             </Button>
           </div>

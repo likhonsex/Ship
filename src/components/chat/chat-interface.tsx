@@ -15,12 +15,14 @@ export function ChatInterface() {
   const { user } = useAuth()
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
-    api: '/api/chat',
+  const { messages, setInput, status, error, handleSubmit } = useChat({
     onError: (error) => {
       toast.error(error.message || 'Something went wrong')
     },
   })
+
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const isLoading = status === 'streaming' || status === 'submitted'
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -30,8 +32,21 @@ export function ChatInterface() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const input = inputRef.current?.value || ''
     if (!input.trim()) return
+    setInput(input)
     handleSubmit(e)
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
+  const getMessageContent = (message: typeof messages[0]) => {
+    if (typeof message.content === 'string') {
+      return message.content
+    }
+    return message.content
+      .filter((part): part is { type: 'text'; text: string } => part.type === 'text')
+      .map((part) => part.text)
+      .join('')
   }
 
   return (
@@ -68,7 +83,7 @@ export function ChatInterface() {
                 }`}
               >
                 <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                  <ReactMarkdown>{getMessageContent(message)}</ReactMarkdown>
                 </div>
               </div>
               {message.role === 'user' && (
@@ -103,8 +118,7 @@ export function ChatInterface() {
         <form onSubmit={onSubmit} className="mx-auto max-w-3xl">
           <div className="relative">
             <Textarea
-              value={input}
-              onChange={handleInputChange}
+              ref={inputRef}
               placeholder="Type your message..."
               className="min-h-[60px] w-full resize-none pr-12"
               onKeyDown={(e) => {
@@ -117,7 +131,7 @@ export function ChatInterface() {
             <Button
               type="submit"
               size="icon"
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading}
               className="absolute bottom-2 right-2"
             >
               <Icons.send className="h-4 w-4" />
