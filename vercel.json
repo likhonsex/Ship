@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyDVfw75B2YxC6LnhxX609O6fqfX82TDy80",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "ship-any.firebaseapp.com",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "ship-any",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "ship-any.firebasestorage.app",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "126284027592",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:126284027592:web:eb6f820b0d19b68437f7fd",
+    "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-ERM3T6SM8L"
+  }
+}
