@@ -1,46 +1,39 @@
 'use client'
 
-import { useState, useRef, useEffect, FormEvent } from 'react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Icons } from '@/components/icons'
+import { useState, FormEvent } from 'react'
 import { useAuth } from '@/components/auth-provider'
-import ReactMarkdown from 'react-markdown'
+import { Icons } from '@/components/icons'
+import { Message, Conversation, PromptInput, SuggestionList } from '@/components/ai'
 import { toast } from 'sonner'
 
-interface Message {
+interface ChatMessage {
   id: string
   role: 'user' | 'assistant'
   content: string
 }
 
+const SUGGESTIONS = [
+  'Help me debug a React component',
+  'Write a Python script to process CSV files',
+  'Explain how async/await works',
+  'Create a REST API with Express',
+]
+
 export function ChatInterface() {
   const { user } = useAuth()
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
-  }, [messages])
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (input: string) => {
     if (!input.trim() || isLoading) return
 
-    const userMessage: Message = {
+    const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
       content: input.trim(),
     }
 
     setMessages((prev) => [...prev, userMessage])
-    setInput('')
     setIsLoading(true)
 
     try {
@@ -60,7 +53,7 @@ export function ChatInterface() {
       const reader = response.body?.getReader()
       if (!reader) throw new Error('No reader')
 
-      const assistantMessage: Message = {
+      const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: '',
@@ -81,7 +74,7 @@ export function ChatInterface() {
         )
       }
     } catch (error) {
-      toast.error('Something went wrong')
+      toast.error('Something went wrong. Please try again.')
       console.error(error)
     } finally {
       setIsLoading(false)
@@ -89,95 +82,53 @@ export function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <ScrollArea ref={scrollRef} className="flex-1 p-4">
-        <div className="mx-auto max-w-3xl space-y-6">
-          {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Icons.logo className="h-12 w-12 text-primary" />
-              <h2 className="mt-4 text-2xl font-semibold">Welcome to Ship</h2>
-              <p className="mt-2 text-muted-foreground">
-                Start a conversation with the AI assistant
-              </p>
+    <div className="flex flex-1 flex-col h-full">
+      <Conversation>
+        {messages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-center px-4">
+            <Icons.logo className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
+            <h2 className="mt-4 text-xl sm:text-2xl font-semibold">Welcome to Ship</h2>
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-md">
+              Start a conversation with the AI assistant. Ask anything about coding, debugging, or building projects.
+            </p>
+            <div className="mt-8 w-full max-w-lg">
+              <p className="text-sm text-muted-foreground mb-3">Try asking:</p>
+              <SuggestionList
+                suggestions={SUGGESTIONS}
+                onSelect={handleSubmit}
+                className="justify-center"
+              />
             </div>
-          )}
-
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              {message.role === 'assistant' && (
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback>
-                    <Icons.logo className="h-4 w-4" />
-                  </AvatarFallback>
-                </Avatar>
-              )}
-              <div
-                className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                  message.role === 'user'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
-                }`}
-              >
-                <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
-                </div>
-              </div>
-              {message.role === 'user' && (
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.photoURL ?? undefined} />
-                  <AvatarFallback>{user?.displayName?.[0] ?? 'U'}</AvatarFallback>
-                </Avatar>
-              )}
-            </div>
-          ))}
-
-          {isLoading && messages[messages.length - 1]?.role === 'user' && (
-            <div className="flex gap-3">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback>
-                  <Icons.logo className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
-              <div className="rounded-lg bg-muted px-4 py-2">
-                <div className="flex items-center gap-1">
-                  <span className="animate-bounce">.</span>
-                  <span className="animate-bounce" style={{ animationDelay: '0.1s' }}>.</span>
-                  <span className="animate-bounce" style={{ animationDelay: '0.2s' }}>.</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </ScrollArea>
-
-      <div className="border-t p-4">
-        <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
-          <div className="relative">
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="min-h-[60px] w-full resize-none pr-12"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault()
-                  handleSubmit(e)
-                }
-              }}
-            />
-            <Button
-              type="submit"
-              size="icon"
-              disabled={isLoading || !input.trim()}
-              className="absolute bottom-2 right-2"
-            >
-              <Icons.send className="h-4 w-4" />
-            </Button>
           </div>
-        </form>
+        ) : (
+          <>
+            {messages.map((message) => (
+              <Message
+                key={message.id}
+                role={message.role}
+                content={message.content}
+                avatar={message.role === 'user' ? user?.photoURL ?? undefined : undefined}
+                name={message.role === 'user' ? user?.displayName ?? undefined : 'Ship'}
+              />
+            ))}
+            {isLoading && messages[messages.length - 1]?.role === 'user' && (
+              <Message role="assistant" content="" isLoading />
+            )}
+          </>
+        )}
+      </Conversation>
+
+      <div className="border-t p-3 sm:p-4 safe-area-inset">
+        <div className="mx-auto max-w-3xl">
+          <PromptInput
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            placeholder="Type your message…"
+          />
+          <p className="mt-2 text-xs text-center text-muted-foreground hidden sm:block">
+            Press Enter to send, Shift+Enter for new line
+          </p>
+        </div>
       </div>
     </div>
   )
