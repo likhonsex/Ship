@@ -12,6 +12,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^1.0.0",
     "@ai-sdk/openai": "^1.0.0",
     "@ai-sdk/xai": "^1.0.0",
     "@auth/drizzle-adapter": "^1.7.0",
