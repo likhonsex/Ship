@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/components/auth-provider'
 import { Toaster } from '@/components/ui/sonner'
@@ -17,16 +18,6 @@ export const metadata: Metadata = {
       ? `https://${process.env.VERCEL_URL}`
       : 'http://localhost:3000'
   ),
-  openGraph: {
-    title: 'Ship - AI Coding Agent',
-    description: 'Ship faster with AI that codes with you',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Ship - AI Coding Agent',
-    description: 'Ship faster with AI that codes with you',
-  },
 }
 
 export const viewport: Viewport = {
@@ -36,7 +27,6 @@ export const viewport: Viewport = {
   ],
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
 }
 
 export default function RootLayout({
@@ -62,6 +52,7 @@ export default function RootLayout({
           </AuthProvider>
           <Toaster position="top-center" />
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
