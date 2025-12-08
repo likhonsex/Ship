@@ -26,6 +26,27 @@
 
 ---
 
+## Secure and Ship Quality Code
+
+Deploy with confidence as Ship helps you find and fix vulnerabilities in real time.
+
+<div align="center">
+
+### ✨ Dream it. See it. Ship it. ✨
+
+</div>
+
+Ship helps you transform your ideas into full-stack intelligent apps and publish with a single click.
+
+| Security Feature | Description |
+|------------------|-------------|
+| **Vulnerability Detection** | Find security issues before they reach production |
+| **Real-time Fixes** | Get instant suggestions to fix vulnerabilities |
+| **Code Quality** | Automated code review and best practices |
+| **Dependency Scanning** | Monitor and update dependencies safely |
+
+---
+
 ## Key Features
 
 | Feature | Description |
@@ -35,6 +56,7 @@
 | **Auto PR Creation** | Creates well-formatted pull requests |
 | **Feedback Response** | Responds to code review comments |
 | **Multi-Provider LLM** | OpenAI, Claude, Groq, Ollama support |
+| **One-Click Deploy** | Transform ideas to deployed apps instantly |
 
 ---
 
@@ -48,6 +70,7 @@ Build, test, and deploy your code. Make code reviews, branch management, and iss
 |----------|-------------|---------|
 | **Ship Agent** | Process assigned issues with AI | `issues.assigned` |
 | **Code Review** | AI-powered code review | `pull_request` |
+| **Security Scan** | Find vulnerabilities in real time | `push` |
 | **Auto Deploy** | Deploy on merge to main | `push` to `main` |
 | **Test Runner** | Run tests on PR | `pull_request` |
 
@@ -105,8 +128,20 @@ jobs:
                            │
                            ▼
 ┌──────────────────────────────────────────────────────────────┐
+│                   Security Scanner                            │
+│          Find & fix vulnerabilities in real time              │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
 │                      PR Manager                               │
 │         Create branches, PRs & handle reviews                 │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    One-Click Deploy                           │
+│              Ship to production instantly                     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -122,6 +157,7 @@ jobs:
 | ⚛️ | **Next.js 14** | Frontend & API routes |
 | 📘 | **TypeScript** | Type-safe development |
 | 🐙 | **GitHub API** | Issue & PR management |
+| 🔒 | **Security Scanner** | Vulnerability detection |
 | 🗄️ | **Supabase** | Database (optional) |
 
 </div>
@@ -172,9 +208,11 @@ npm run dev
 - [x] Core issue processor
 - [x] AI code generation
 - [x] GitHub Actions integration
+- [x] Security vulnerability scanning
 - [ ] Multi-provider LLM support
 - [ ] Advanced PR management
 - [ ] Feedback loop automation
+- [ ] One-click deploy integration
 - [ ] VS Code extension
 
 ---
@@ -206,6 +244,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
+
+### ✨ Dream it. See it. Ship it. ✨
 
 **Built with AI for developers who ship**
 
