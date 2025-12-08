@@ -1,7 +1,7 @@
 'use client'
 
-import { type User } from 'next-auth'
-import { signOut } from 'next-auth/react'
+import { useAuth } from '@/components/auth-provider'
+import { signOut } from '@/lib/firebase'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -13,12 +13,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Icons } from '@/components/icons'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { useRouter } from 'next/navigation'
 
-interface ChatHeaderProps {
-  user: User
-}
+export function ChatHeader() {
+  const { user } = useAuth()
+  const router = useRouter()
 
-export function ChatHeader({ user }: ChatHeaderProps) {
+  const handleSignOut = async () => {
+    await signOut()
+    router.push('/')
+  }
+
+  if (!user) return null
+
   return (
     <header className="flex h-14 items-center justify-between border-b px-4">
       <div className="flex items-center gap-2">
@@ -34,14 +41,14 @@ export function ChatHeader({ user }: ChatHeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user.image ?? undefined} />
-                <AvatarFallback>{user.name?.[0] ?? 'U'}</AvatarFallback>
+                <AvatarImage src={user.photoURL ?? undefined} />
+                <AvatarFallback>{user.displayName?.[0] ?? user.email?.[0] ?? 'U'}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <div className="px-2 py-1.5">
-              <p className="text-sm font-medium">{user.name}</p>
+              <p className="text-sm font-medium">{user.displayName ?? 'User'}</p>
               <p className="text-xs text-muted-foreground">{user.email}</p>
             </div>
             <DropdownMenuSeparator />
@@ -52,7 +59,7 @@ export function ChatHeader({ user }: ChatHeaderProps) {
               </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
+            <DropdownMenuItem onClick={handleSignOut}>
               Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
