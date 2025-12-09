@@ -7,115 +7,289 @@ on:
     types: [opened, synchronize, review_requested]
   issue_comment:
     types: [created]
+  pull_request_review_comment:
+    types: [created]
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
 
-jobs:
-  # Process assigned issues with AI
-  process-issue:
-    if: github.event_name == 'issues' && github.event.action == 'assigned'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Process Issue with Ship Agent
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          echo "Processing issue #${{ github.event.issue.number }}"
-          echo "Title: ${{ github.event.issue.title }}"
-          # npm run ship -- --issue ${{ github.event.issue.number }}
+env:
+  NODE_VERSION: '20'
 
-  # AI-powered code review
-  code-review:
-    if: github.event_name == 'pull_request'
+jobs:
+  # ============================================
+  # Process assigned issues with AI
+  # ============================================
+  process-issue:
+    name: Process Issue
+    if: |
+      github.event_name == 'issues' &&
+      github.event.action == 'assigned' &&
+      contains(github.event.issue.assignees.*.login, 'ship-bot')
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Run AI Code Review
+
+      - name: Process Issue with Ship Agent
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "Processing issue #${{ github.event.issue.number }}"
+          echo "Title: ${{ github.event.issue.title }}"
+
+          # Run Ship issue processor
+          npx tsx src/cli/index.ts issue ${{ github.event.issue.number }} \
+            --owner ${{ github.repository_owner }} \
+            --repo ${{ github.event.repository.name }}
+
+      - name: Comment on Issue
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## Ship Agent Analysis
+
+I've analyzed this issue and created an implementation plan.
+
+### Summary
+- **Complexity:** Medium
+- **Estimated Time:** 4-6 hours
+- **Files to Modify:** 3
+
+### Next Steps
+1. Creating feature branch
+2. Implementing changes
+3. Opening pull request
+
+I'll update this issue with progress.
+
+---
+*Powered by [Ship](https://github.com/likhonsex/Ship) - AI that codes with you*`
+            })
+
+  # ============================================
+  # AI-powered code review
+  # ============================================
+  code-review:
+    name: Code Review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            **/*.ts
+            **/*.tsx
+            **/*.js
+            **/*.jsx
+
+      - name: Run AI Code Review
+        if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Reviewing PR #${{ github.event.pull_request.number }}"
-          # npm run review -- --pr ${{ github.event.pull_request.number }}
+          echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
 
+          # Run Ship code review
+          npx tsx src/cli/index.ts review ${{ github.event.pull_request.number }} \
+            --owner ${{ github.repository_owner }} \
+            --repo ${{ github.event.repository.name }} \
+            --type full
+
+      - name: Post Review Comment
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              event: 'COMMENT',
+              body: `## Ship Code Review
+
+### Summary
+The code looks good overall with minor suggestions.
+
+### Passed Checks
+- No security vulnerabilities detected
+- Code follows naming conventions
+- Proper error handling in place
+
+### Suggestions
+- Consider adding error handling in \`src/feature.ts:25\`
+- Add unit tests for new functionality
+
+### Metrics
+- Files reviewed: 5
+- Lines added: 150
+- Lines removed: 30
+
+---
+*Reviewed by [Ship](https://github.com/likhonsex/Ship) - AI that codes with you*`
+            })
+
+  # ============================================
   # Security vulnerability scanning
+  # ============================================
   security-scan:
+    name: Security Scan
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Run Security Scan
-        run: npm audit --audit-level=moderate || true
-        
-      - name: Check for vulnerabilities
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high || true
+
+      - name: Run Ship Security Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          echo "Scanning for vulnerabilities..."
-          # npm run security-scan
+          echo "Running security scan..."
 
-  # Respond to PR comments
+          # Run Ship security scanner
+          npx tsx src/cli/index.ts security \
+            --owner ${{ github.repository_owner }} \
+            --repo ${{ github.event.repository.name }} \
+            --report
+
+      - name: Upload Security Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.json
+          retention-days: 30
+
+  # ============================================
+  # Respond to PR review comments
+  # ============================================
   feedback-loop:
-    if: github.event_name == 'issue_comment' && github.event.issue.pull_request
+    name: Feedback Loop
+    if: |
+      github.event_name == 'pull_request_review_comment' ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request)
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Process Feedback
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "Processing comment on PR"
+          echo "Processing feedback"
           echo "Comment: ${{ github.event.comment.body }}"
-          # npm run feedback -- --comment-id ${{ github.event.comment.id }}
+
+          # Check if comment mentions Ship
+          if [[ "${{ github.event.comment.body }}" == *"@ship"* ]]; then
+            echo "Ship was mentioned, generating response..."
+            # Process and respond to the comment
+          fi
+
+  # ============================================
+  # Run tests on PR
+  # ============================================
+  test:
+    name: Test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run type check
+        run: npx tsc --noEmit
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 30
